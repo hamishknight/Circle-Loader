@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     override func loadView() {
-        self.view = teethLoaderView(frame: UIScreen.mainScreen().bounds)
+        self.view = teethLoaderViewCA(frame: UIScreen.mainScreen().bounds)
     }
     
     override func viewDidLoad() {
