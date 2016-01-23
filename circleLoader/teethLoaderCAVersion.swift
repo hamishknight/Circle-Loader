@@ -38,7 +38,7 @@ class teethLoaderViewCA : UIView {
         self.backgroundColor = UIColor.whiteColor()
 
         // Get the group of paths we created.
-        shapeLayer.path = getPathMask(frame.size, numberOfTeeth: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
+        shapeLayer.path = getPathMask(frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
         
         let halfWidth = frame.size.width*0.5
         let halfHeight = frame.size.height*0.5
@@ -64,18 +64,18 @@ class teethLoaderViewCA : UIView {
     }
     
 
-    func getPathMask(size:CGSize, numberOfTeeth:UInt, teethSize:CGSize, radius:CGFloat) -> CGPathRef {
+    func getPathMask(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> CGPathRef {
         
-        let halfHeight = size.height/2;
-        let halfWidth = size.width/2;
-        let deltaAngle = CGFloat(2*M_PI/Double(numberOfTeeth)); // The change in angle between paths
+        let halfHeight = size.height*0.5;
+        let halfWidth = size.width*0.5;
+        let deltaAngle = CGFloat(2*M_PI/Double(teethCount)); // The change in angle between paths
         
         // Create the template path of a single shape.
         let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil);
         
         let returnPath = CGPathCreateMutable()
         
-        for var i:UInt = 0; i < numberOfTeeth; i++ { // Copy, translate and rotate shapes around
+        for i in 0..<teethCount { // Copy, translate and rotate shapes around
             
             let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight);
             var rotate = CGAffineTransformRotate(translate, deltaAngle*CGFloat(i))

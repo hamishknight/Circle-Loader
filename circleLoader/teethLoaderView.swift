@@ -21,7 +21,7 @@ class teethLoaderView : UIView {
     var progress:NSTimeInterval = 0.0 // The progress of the loader
     var paths = NSArray() // The array containing the UIBezier paths
     var displayLink = CADisplayLink() // The display link to update the progress
-    var teethHighlighted:Int = 0 // Number of teeth highlighted
+    var teethHighlighted:UInt = 0 // Number of teeth highlighted
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,7 +35,7 @@ class teethLoaderView : UIView {
     
     private func commonSetup() {
         self.backgroundColor = UIColor.whiteColor()
-        paths = getPaths(frame.size, numberOfTeeth: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
+        paths = getPaths(frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
         
         displayLink = CADisplayLink(target: self, selector: "displayLinkDidFire");
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
@@ -51,7 +51,7 @@ class teethLoaderView : UIView {
         
         let t = teethHighlighted
         
-        teethHighlighted = Int(round(progress*NSTimeInterval(numberOfTeeth))) // Calculate the number of teeth to highlight
+        teethHighlighted = UInt(round(progress*NSTimeInterval(numberOfTeeth))) // Calculate the number of teeth to highlight
         
         if (t != teethHighlighted) { // Only call setNeedsDisplay if the teethHighlighted changed
             setNeedsDisplay()
@@ -65,8 +65,8 @@ class teethLoaderView : UIView {
         CGContextScaleCTM(ctx, -1, -1) // Flip the context to the correct orientation
         CGContextTranslateCTM(ctx, -rect.size.width, -rect.size.height)
         
-        for var i = 0; i < Int(numberOfTeeth); i++ { // Draw each 'tooth'
-            let p = paths.objectAtIndex(i) as! UIBezierPath
+        for i in 0..<numberOfTeeth { // Draw each 'tooth'
+            let p = paths.objectAtIndex(Int(i)) as! UIBezierPath
             
             CGContextAddPath(ctx, p.CGPath);
             
@@ -77,17 +77,17 @@ class teethLoaderView : UIView {
         }
     }
     
-    func getPaths(size:CGSize, numberOfTeeth:UInt, teethSize:CGSize, radius:CGFloat) -> NSArray {
+    func getPaths(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> NSArray {
         
-        let halfHeight = size.height/2;
-        let halfWidth = size.width/2;
-        let deltaAngle = CGFloat(2*M_PI/Double(numberOfTeeth)); // The change in angle between paths
+        let halfHeight = size.height*0.5;
+        let halfWidth = size.width*0.5;
+        let deltaAngle = CGFloat(2*M_PI/Double(teethCount)); // The change in angle between paths
         
         // Create the template path of a single shape.
         let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil);
         
         let pathArray = NSMutableArray()
-        for var i:UInt = 0; i < numberOfTeeth; i++ { // Copy, translate and rotate shapes around
+        for i in 0..<teethCount { // Copy, translate and rotate shapes around
             
             let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight);
             var rotate = CGAffineTransformRotate(translate, deltaAngle*CGFloat(i))
