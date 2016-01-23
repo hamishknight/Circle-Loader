@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CB4CB6B1C53AC3B0068DB28 /* teethLoaderCAVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB4CB6A1C53AC3B0068DB28 /* teethLoaderCAVersion.swift */; };
 		1CD39DFF1C52E4C800736BCD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39DFE1C52E4C800736BCD /* AppDelegate.swift */; };
 		1CD39E011C52E4C800736BCD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39E001C52E4C800736BCD /* ViewController.swift */; };
 		1CD39E041C52E4C800736BCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD39E021C52E4C800736BCD /* Main.storyboard */; };
@@ -14,7 +15,7 @@
 		1CD39E091C52E4C800736BCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CD39E071C52E4C800736BCD /* LaunchScreen.storyboard */; };
 		1CD39E141C52E4C900736BCD /* loaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39E131C52E4C900736BCD /* loaderTests.swift */; };
 		1CD39E1F1C52E4C900736BCD /* loaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39E1E1C52E4C900736BCD /* loaderUITests.swift */; };
-		1CD39E2D1C52E4E200736BCD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39E2C1C52E4E200736BCD /* View.swift */; };
+		1CD39E2D1C52E4E200736BCD /* teethLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD39E2C1C52E4E200736BCD /* teethLoaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1CB4CB6A1C53AC3B0068DB28 /* teethLoaderCAVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = teethLoaderCAVersion.swift; sourceTree = "<group>"; };
 		1CD39DFB1C52E4C800736BCD /* circleLoader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = circleLoader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD39DFE1C52E4C800736BCD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1CD39E001C52E4C800736BCD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,7 +50,7 @@
 		1CD39E1A1C52E4C900736BCD /* circleLoader.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = circleLoader.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CD39E1E1C52E4C900736BCD /* loaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loaderUITests.swift; sourceTree = "<group>"; };
 		1CD39E201C52E4C900736BCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1CD39E2C1C52E4E200736BCD /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		1CD39E2C1C52E4E200736BCD /* teethLoaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = teethLoaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +104,8 @@
 				1CD39DFE1C52E4C800736BCD /* AppDelegate.swift */,
 				1CD39E021C52E4C800736BCD /* Main.storyboard */,
 				1CD39E001C52E4C800736BCD /* ViewController.swift */,
-				1CD39E2C1C52E4E200736BCD /* View.swift */,
+				1CD39E2C1C52E4E200736BCD /* teethLoaderView.swift */,
+				1CB4CB6A1C53AC3B0068DB28 /* teethLoaderCAVersion.swift */,
 				1CD39E051C52E4C800736BCD /* Assets.xcassets */,
 				1CD39E071C52E4C800736BCD /* LaunchScreen.storyboard */,
 				1CD39E0A1C52E4C800736BCD /* Info.plist */,
@@ -261,9 +264,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB4CB6B1C53AC3B0068DB28 /* teethLoaderCAVersion.swift in Sources */,
 				1CD39E011C52E4C800736BCD /* ViewController.swift in Sources */,
 				1CD39DFF1C52E4C800736BCD /* AppDelegate.swift in Sources */,
-				1CD39E2D1C52E4E200736BCD /* View.swift in Sources */,
+				1CD39E2D1C52E4E200736BCD /* teethLoaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,7 +21,7 @@ class teethLoaderView : UIView {
     var progress:NSTimeInterval = 0.0 // The progress of the loader
     var paths = NSArray() // The array containing the UIBezier paths
     var displayLink = CADisplayLink() // The display link to update the progress
-    var teethHighlighted:Int = 0
+    var teethHighlighted:Int = 0 // Number of teeth highlighted
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,7 +53,7 @@ class teethLoaderView : UIView {
         
         teethHighlighted = Int(round(progress*NSTimeInterval(numberOfTeeth))) // Calculate the number of teeth to highlight
         
-        if (t != teethHighlighted) {
+        if (t != teethHighlighted) { // Only call setNeedsDisplay if the teethHighlighted changed
             setNeedsDisplay()
         }
     }
