@@ -49,17 +49,28 @@ class teethLoaderViewCA : UIView {
         drawLayer.frame = frame
         drawLayer.fillColor = inactiveColor.CGColor
         drawLayer.strokeColor = highlightColor.CGColor
-        drawLayer.strokeStart = 0
+        drawLayer.strokeEnd = 0
         drawLayer.lineWidth = halfWidth
         drawLayer.mask = shapeLayer
         layer.addSublayer(drawLayer)
 
-        // Setup animation
-        anim.duration = animationDuration
-        anim.fromValue = drawLayer.strokeStart
-        anim.toValue = 1.0
-        anim.repeatCount = Float.infinity
+        // Optional, but looks nice
+        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+    }
+    
+    func animate(fromValue:CGFloat, toValue:CGFloat) {
+        
+        let deltaValue = NSTimeInterval(abs(toValue-fromValue))
+        anim.duration = animationDuration*deltaValue // Adjusts the duration to be proportional to the change in value.
+        anim.fromValue = fromValue
+        anim.toValue = toValue
         drawLayer.addAnimation(anim, forKey: "circleAnim")
+
+        // Transaction to disable implicit animation
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        drawLayer.strokeEnd = toValue;
+        CATransaction.commit()
         
     }
     
