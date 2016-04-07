@@ -12,16 +12,16 @@ import UIKit
 class teethLoaderView : UIView {
     
     let numberOfTeeth:UInt = 60 // Number of teetch to render
-    let teethSize = CGSizeMake(8, 45) // The size of each individual tooth
-    let animationDuration:NSTimeInterval = 5.0 // The duration of the animation
+    let teethSize = CGSize(width:8, height:45) // The size of each individual tooth
+    let animationDuration = NSTimeInterval(5.0) // The duration of the animation
     
     let highlightColor = UIColor(red: 29.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1) // The color of a tooth when it's 'highlighted'
     let inactiveColor = UIColor(red: 233.0/255.0, green: 235.0/255.0, blue: 236.0/255.0, alpha: 1) // The color of a tooth when it isn't 'hightlighted'
     
-    var progress:NSTimeInterval = 0.0 // The progress of the loader
-    var paths = NSArray() // The array containing the UIBezier paths
+    var progress = NSTimeInterval(0.0) // The progress of the loader
+    var paths = [UIBezierPath]() // The array containing the UIBezier paths
     var displayLink = CADisplayLink() // The display link to update the progress
-    var teethHighlighted:UInt = 0 // Number of teeth highlighted
+    var teethHighlighted = UInt(0) // Number of teeth highlighted
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,7 +37,7 @@ class teethLoaderView : UIView {
         self.backgroundColor = UIColor.whiteColor()
         paths = getPaths(frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
         
-        displayLink = CADisplayLink(target: self, selector: "displayLinkDidFire");
+        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire));
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
@@ -65,38 +65,36 @@ class teethLoaderView : UIView {
         CGContextScaleCTM(ctx, -1, -1) // Flip the context to the correct orientation
         CGContextTranslateCTM(ctx, -rect.size.width, -rect.size.height)
         
-        for i in 0..<numberOfTeeth { // Draw each 'tooth'
-            let p = paths.objectAtIndex(Int(i)) as! UIBezierPath
+        for (index, path) in paths.enumerate() { // Draw each 'tooth'
             
-            CGContextAddPath(ctx, p.CGPath);
+            CGContextAddPath(ctx, path.CGPath);
             
-            let fillColor = (i <= teethHighlighted) ? highlightColor:inactiveColor;
+            let fillColor = (UInt(index) <= teethHighlighted) ? highlightColor:inactiveColor;
             
             CGContextSetFillColorWithColor(ctx, fillColor.CGColor)
             CGContextFillPath(ctx)
         }
     }
     
-    func getPaths(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> NSArray {
+    func getPaths(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> [UIBezierPath] {
         
         let halfHeight = size.height*0.5;
         let halfWidth = size.width*0.5;
-        let deltaAngle = CGFloat(2*M_PI/Double(teethCount)); // The change in angle between paths
+        let deltaAngle = CGFloat(2*M_PI)/CGFloat(teethCount); // The change in angle between paths
         
         // Create the template path of a single shape.
         let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil);
         
-        let pathArray = NSMutableArray()
+        var pathArray = [UIBezierPath]()
         for i in 0..<teethCount { // Copy, translate and rotate shapes around
             
             let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight);
             var rotate = CGAffineTransformRotate(translate, deltaAngle*CGFloat(i))
-            let pathCopy = CGPathCreateCopyByTransformingPath(p, &rotate)
+            let pathCopy = CGPathCreateCopyByTransformingPath(p, &rotate)!
             
-            pathArray.addObject(UIBezierPath(CGPath: pathCopy!)) // Populate the array
+            pathArray.append(UIBezierPath(CGPath: pathCopy)) // Populate the array
         }
         
-        return pathArray.copy() as! NSArray
+        return pathArray
     }
-    
 }

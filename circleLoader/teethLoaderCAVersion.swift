@@ -12,9 +12,9 @@ import QuartzCore
 
 class teethLoaderViewCA : UIView {
     
-    let numberOfTeeth:UInt = 60 // Number of teetch to render
-    let teethSize = CGSizeMake(8, 45) // The size of each individual tooth
-    let animationDuration:NSTimeInterval = 5.0 // The duration of the animation
+    let numberOfTeeth = UInt(60) // Number of teetch to render
+    let teethSize = CGSize(width:8, height:45) // The size of each individual tooth
+    let animationDuration = NSTimeInterval(5.0) // The duration of the animation
     
     let highlightColor = UIColor(red: 29.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1) // The color of a tooth when it's 'highlighted'
     let inactiveColor = UIColor(red: 233.0/255.0, green: 235.0/255.0, blue: 236.0/255.0, alpha: 1) // The color of a tooth when it isn't 'hightlighted'
@@ -35,6 +35,8 @@ class teethLoaderViewCA : UIView {
     }
     
     private func commonSetup() {
+        
+        // set your background color
         self.backgroundColor = UIColor.whiteColor()
 
         // Get the group of paths we created.
@@ -69,31 +71,29 @@ class teethLoaderViewCA : UIView {
         // Transaction to disable implicit animation
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        drawLayer.strokeEnd = toValue;
+        drawLayer.strokeEnd = toValue
         CATransaction.commit()
-        
     }
     
 
-    func getPathMask(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> CGPathRef {
+    func getPathMask(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> CGPathRef? {
         
-        let halfHeight = size.height*0.5;
-        let halfWidth = size.width*0.5;
-        let deltaAngle = CGFloat(2*M_PI/Double(teethCount)); // The change in angle between paths
+        let halfHeight = size.height*0.5
+        let halfWidth = size.width*0.5
+        let deltaAngle = CGFloat(2*M_PI)/CGFloat(teethCount); // The change in angle between paths
         
         // Create the template path of a single shape.
-        let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil);
+        let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil)
         
         let returnPath = CGPathCreateMutable()
         
         for i in 0..<teethCount { // Copy, translate and rotate shapes around
-            
-            let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight);
+            let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight)
             var rotate = CGAffineTransformRotate(translate, deltaAngle*CGFloat(i))
             CGPathAddPath(returnPath, &rotate, p)
         }
         
-        return CGPathCreateCopy(returnPath)!
+        return CGPathCreateCopy(returnPath)
     }
     
 }

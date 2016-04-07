@@ -10,14 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
     
-        let circle = teethLoaderViewCA(frame: UIScreen.mainScreen().bounds)
+       // let circle = teethLoaderViewCA(frame: UIScreen.mainScreen().bounds)
     
     override func loadView() {
         
-        //self.view = teethLoaderView(frame: UIScreen.mainScreen().bounds) // uncomment for core graphics version
-        self.view = circle // comment for core graphics version
+        self.view = teethLoaderView(frame: UIScreen.mainScreen().bounds) // uncomment for core graphics version
+        //self.view = circle // comment for core graphics version
         
-        circle.animate(0, toValue: 0.6)
+        //circle.animate(0, toValue: 0.6)
+        
     }
     
     override func viewDidLoad() {
@@ -28,10 +29,10 @@ class ViewController: UIViewController {
     
     // Example function showing the animate() function working.
     
-    /*
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        circle.animate(0.6, toValue: 1)
-    }*/
+       // circle.animate(0.6, toValue: 1)
+    }
     
     
     override func prefersStatusBarHidden() -> Bool {
