@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class teethLoaderView : UIView {
+class TeethLoaderView : UIView {
     
-    let numberOfTeeth:UInt = 60 // Number of teetch to render
+    let numberOfTeeth = UInt(60) // Number of teeth to render
     let teethSize = CGSize(width:8, height:45) // The size of each individual tooth
     let animationDuration = NSTimeInterval(5.0) // The duration of the animation
     
@@ -37,7 +37,7 @@ class teethLoaderView : UIView {
         self.backgroundColor = UIColor.whiteColor()
         paths = getPaths(frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
         
-        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire));
+        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
         displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
@@ -67,7 +67,7 @@ class teethLoaderView : UIView {
         
         for (index, path) in paths.enumerate() { // Draw each 'tooth'
             
-            CGContextAddPath(ctx, path.CGPath);
+            CGContextAddPath(ctx, path.CGPath)
             
             let fillColor = (UInt(index) <= teethHighlighted) ? highlightColor:inactiveColor;
             

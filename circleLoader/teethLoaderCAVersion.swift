@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import QuartzCore
 
-class teethLoaderViewCA : UIView {
+class TeethLoaderViewCA : UIView {
     
     let numberOfTeeth = UInt(60) // Number of teetch to render
     let teethSize = CGSize(width:8, height:45) // The size of each individual tooth
@@ -44,7 +44,7 @@ class teethLoaderViewCA : UIView {
         
         let halfWidth = frame.size.width*0.5
         let halfHeight = frame.size.height*0.5
-        let halfDeltaAngle = CGFloat(M_PI/Double(numberOfTeeth));
+        let halfDeltaAngle = CGFloat(M_PI/Double(numberOfTeeth))
         
         // Creates an arc path, with a given offset to allow it to be presented nicely
         drawLayer.path = UIBezierPath(arcCenter: CGPointMake(halfWidth, halfHeight), radius: halfWidth, startAngle: CGFloat(-M_PI_2)-halfDeltaAngle, endAngle: CGFloat(M_PI*1.5)+halfDeltaAngle, clockwise: true).CGPath

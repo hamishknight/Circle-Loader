@@ -10,11 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-       // let circle = teethLoaderViewCA(frame: UIScreen.mainScreen().bounds)
+       // let circle = TeethLoaderViewCA(frame: UIScreen.mainScreen().bounds)
     
     override func loadView() {
         
-        self.view = teethLoaderView(frame: UIScreen.mainScreen().bounds) // uncomment for core graphics version
+        self.view = TeethLoaderView(frame: UIScreen.mainScreen().bounds) // uncomment for core graphics version
         //self.view = circle // comment for core graphics version
         
         //circle.animate(0, toValue: 0.6)
