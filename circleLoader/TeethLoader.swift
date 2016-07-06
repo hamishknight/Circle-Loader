@@ -11,17 +11,28 @@ import UIKit
 
 class TeethLoaderView : UIView {
     
-    let numberOfTeeth = UInt(60) // Number of teeth to render
-    let teethSize = CGSize(width:8, height:45) // The size of each individual tooth
-    let animationDuration = NSTimeInterval(5.0) // The duration of the animation
+    var numberOfTeeth = 60 { // Number of teeth to render
+        didSet {updatePathSegments()}
+    }
     
-    let highlightColor = UIColor(red: 29.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1) // The color of a tooth when it's 'highlighted'
-    let inactiveColor = UIColor(red: 233.0/255.0, green: 235.0/255.0, blue: 236.0/255.0, alpha: 1) // The color of a tooth when it isn't 'hightlighted'
+    var teethSize = CGSize(width:8, height:45) { // The size of each individual tooth
+        didSet {updatePathSegments()}
+    }
     
-    var progress = NSTimeInterval(0.0) // The progress of the loader
-    var paths = [UIBezierPath]() // The array containing the UIBezier paths
-    var displayLink = CADisplayLink() // The display link to update the progress
-    var teethHighlighted = UInt(0) // Number of teeth highlighted
+    var animationDuration : TimeInterval = 5.0 // The duration of the animation
+    
+    var toothHighlightColor = UIColor(red: 29.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1) { // The color of a tooth when it's 'highlighted'
+        didSet {setNeedsDisplay()}
+    }
+    
+    var toothInactiveColor = UIColor(red: 233.0/255.0, green: 235.0/255.0, blue: 236.0/255.0, alpha: 1) { // The color of a tooth when it isn't 'hightlighted'
+        didSet {setNeedsDisplay()}
+    }
+    
+    private var progress = 0.0 // The progress of the loader
+    private var pathSegments = [UIBezierPath]() // The array containing the UIBezier paths
+    private var displayLink : CADisplayLink? // The display link to update the progress
+    private var teethHighlighted = 0 // Number of teeth highlighted
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,14 +45,29 @@ class TeethLoaderView : UIView {
     }
     
     private func commonSetup() {
-        self.backgroundColor = UIColor.whiteColor()
-        paths = getPaths(frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
-        
-        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
-        displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+        self.backgroundColor = UIColor.white()
     }
     
-    func displayLinkDidFire() {
+    override func layoutSubviews() {
+        updatePathSegments()
+    }
+    
+    func startAnimation() {
+        
+        displayLink?.invalidate()
+        
+        displayLink = CADisplayLink(target: self, selector: #selector(_displayLinkDidFire))
+        displayLink?.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+    }
+    
+    func stopAnimation() {
+        displayLink?.invalidate()
+        displayLink = nil
+    }
+    
+    func _displayLinkDidFire() {
+        
+        guard let displayLink = displayLink else {return}
         
         progress += displayLink.duration/animationDuration
         
@@ -51,50 +77,54 @@ class TeethLoaderView : UIView {
         
         let t = teethHighlighted
         
-        teethHighlighted = UInt(round(progress*NSTimeInterval(numberOfTeeth))) // Calculate the number of teeth to highlight
+        teethHighlighted = Int(round(progress*TimeInterval(numberOfTeeth))) // Calculate the number of teeth to highlight
         
         if (t != teethHighlighted) { // Only call setNeedsDisplay if the teethHighlighted changed
             setNeedsDisplay()
         }
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let ctx = UIGraphicsGetCurrentContext()
         
-        CGContextScaleCTM(ctx, -1, -1) // Flip the context to the correct orientation
-        CGContextTranslateCTM(ctx, -rect.size.width, -rect.size.height)
+        ctx?.scale(x: -1, y: -1) // Flip the context to the correct orientation
+        ctx?.translate(x: -rect.size.width, y: -rect.size.height)
         
-        for (index, path) in paths.enumerate() { // Draw each 'tooth'
+        for (index, path) in pathSegments.enumerated() { // Draw each 'tooth'
             
-            CGContextAddPath(ctx, path.CGPath)
+            ctx?.addPath(path.cgPath)
             
-            let fillColor = (UInt(index) <= teethHighlighted) ? highlightColor:inactiveColor;
+            let fillColor = (index <= teethHighlighted) ? toothHighlightColor : toothInactiveColor
             
-            CGContextSetFillColorWithColor(ctx, fillColor.CGColor)
-            CGContextFillPath(ctx)
+            ctx?.setFillColor(fillColor.cgColor)
+            ctx?.fillPath()
         }
     }
     
-    func getPaths(size:CGSize, teethCount:UInt, teethSize:CGSize, radius:CGFloat) -> [UIBezierPath] {
+    private func updatePathSegments() {
+        pathSegments = getPathSegments(size: frame.size, teethCount: numberOfTeeth, teethSize: teethSize, radius: ((frame.width*0.5)-teethSize.height))
+        setNeedsDisplay()
+    }
+    
+    private func getPathSegments(size:CGSize, teethCount:Int, teethSize:CGSize, radius:CGFloat) -> [UIBezierPath] {
         
-        let halfHeight = size.height*0.5;
-        let halfWidth = size.width*0.5;
-        let deltaAngle = CGFloat(2*M_PI)/CGFloat(teethCount); // The change in angle between paths
+        let halfHeight = size.height*0.5
+        let halfWidth = size.width*0.5
+        let deltaAngle = CGFloat(2*M_PI)/CGFloat(teethCount) // The change in angle between paths
         
         // Create the template path of a single shape.
-        let p = CGPathCreateWithRect(CGRectMake(-teethSize.width*0.5, radius, teethSize.width, teethSize.height), nil);
+        let segment = CGPath(rect: CGRect(x: -teethSize.width*0.5, y: radius, width: teethSize.width, height: teethSize.height), transform: nil)
         
-        var pathArray = [UIBezierPath]()
-        for i in 0..<teethCount { // Copy, translate and rotate shapes around
+        return (0..<teethCount).flatMap { i in  // Copy, translate and rotate shapes around
             
-            let translate = CGAffineTransformMakeTranslation(halfWidth, halfHeight);
-            var rotate = CGAffineTransformRotate(translate, deltaAngle*CGFloat(i))
-            let pathCopy = CGPathCreateCopyByTransformingPath(p, &rotate)!
+            let translate = CGAffineTransform(translationX: halfWidth, y: halfHeight)
+            var rotate = translate.rotate(deltaAngle*CGFloat(i))
+            let transformedSegment = segment.copy(using: &rotate)
             
-            pathArray.append(UIBezierPath(CGPath: pathCopy)) // Populate the array
+            assert(transformedSegment != nil, "Unable to copy path by applying a transform")
+            
+            return transformedSegment.map(UIBezierPath.init(cgPath:))
         }
-        
-        return pathArray
     }
 }

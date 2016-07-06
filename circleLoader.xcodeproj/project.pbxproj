@@ -196,18 +196,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Redonkulous Apps";
 				TargetAttributes = {
 					1CD39DFA1C52E4C800736BCD = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 					};
 					1CD39E0E1C52E4C900736BCD = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = 1CD39DFA1C52E4C800736BCD;
 					};
 					1CD39E191C52E4C900736BCD = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = 1CD39DFA1C52E4C800736BCD;
 					};
 				};
@@ -413,6 +416,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loader;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -424,6 +428,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loader;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -435,6 +441,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loaderTests;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/circleLoader.app/circleLoader";
 			};
 			name = Debug;
@@ -447,6 +454,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loaderTests;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/circleLoader.app/circleLoader";
 			};
 			name = Release;
@@ -458,6 +467,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loaderUITests;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = loader;
 			};
 			name = Debug;
@@ -469,6 +479,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.redonkulousapps.loaderUITests;
 				PRODUCT_NAME = circleLoader;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = loader;
 			};
 			name = Release;
